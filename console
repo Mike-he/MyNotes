@@ -1,0 +1,161 @@
+#!/usr/bin/env php
+<?php
+const README_MD = 'README.md';
+const GENERATE_API_MENU = 'gen:read';
+const MENUS_URL_PREFIX = 'https://github.com/Mike-he/myNotes';
+const URL_PREFIX = 'https://github.com/Mike-he/myNotes/blob/master/';
+$excludeDir = array('Test Scenarios');
+file_put_contents(README_MD, '');
+$readme = fopen(README_MD, 'a');
+//fwrite($readme, '![Sandbox3](http://devbackend.sandbox3.cn/img/login_logo.jpg)'.PHP_EOL.PHP_EOL);
+fwrite($readme, '# API quick links (Too many? Try quick search with `⌘F`):'.PHP_EOL.PHP_EOL);
+handleArgv($argv);
+/**
+ * @param $argv
+ */
+function handleArgv(
+    $argv
+) {
+    if (count($argv) == 1) {
+        printf('Available commands:'.PHP_EOL.PHP_EOL);
+        printf(exec("printf \"\033[32m".GENERATE_API_MENU."\033[0m\n\"").PHP_EOL);
+        printf(PHP_EOL);
+    }
+    if (count($argv) == 2) {
+        switch ($argv[1])
+        {
+            case GENERATE_API_MENU:
+                generateApiMenu();
+                break;
+            default:
+                $string = 'Sorry, No such command in console file! Try \'php console\' command to list available commands.';
+                $cmd = "printf \"\033[31m".$string." \033[0m\n\"";
+                $output = exec($cmd);
+                printf($output.PHP_EOL);
+        }
+    }
+}
+/**
+ * Function of generate api menu
+ */
+function generateApiMenu()
+{
+    global $readme;
+    traverseTitleMenus();
+    fwrite($readme, PHP_EOL.'---'.PHP_EOL);
+    traverseAPIs();
+    fclose($readme);
+    $cmd = "printf \"\033[32m".'Success!'."\033[0m\n\"";
+    $output = exec($cmd);
+    printf(PHP_EOL.$output.PHP_EOL.PHP_EOL);
+}
+function traverseTitleMenus($path = '.') {
+    global $readme;
+    global $excludeDir;
+    // open a dir, fail return false
+    $current_dir = opendir($path);
+    // read a dir
+    while(($file = readdir($current_dir)) !== false) {
+        // make child dir
+        $sub_dir = $path . DIRECTORY_SEPARATOR . $file;
+        if($file == '.' || $file == '..') {
+            continue;
+        } else if(is_dir($sub_dir)) {
+            // if is dir, continue traverseAPIs
+            if (substr($file, 0, 1) == '.') {
+                continue;
+            }
+            if (in_array($file, $excludeDir)) {
+                continue;
+            }
+            // write title
+            $titleArray = explode(DIRECTORY_SEPARATOR, $sub_dir);
+            $count = count($titleArray);
+            switch ($count) {
+                case 2:
+                    fwrite($readme, '- '.$titleArray[1].PHP_EOL);
+                    break;
+                case 3:
+                    fwrite($readme, '    - '.$titleArray[2].PHP_EOL);
+                    break;
+                case 4:
+                    $title = substr($sub_dir, 2);
+                    $anchor = transferToAnchor($title);
+                    fwrite($readme, '        - ['.$titleArray[3].']('.MENUS_URL_PREFIX.'#'.$anchor.')'.PHP_EOL);
+                    break;
+                default:
+                    continue;
+            }
+            traverseTitleMenus($sub_dir);
+        } else {
+            // if is file, continue traverse
+            continue;
+        }
+    }
+}
+/**
+ * @param string $path
+ */
+function traverseAPIs($path = '.') {
+    global $readme;
+    // open a dir, fail return false
+    $current_dir = opendir($path);
+    // read a dir
+    while(($file = readdir($current_dir)) !== false) {
+        // make child dir
+        $sub_dir = $path . DIRECTORY_SEPARATOR . $file;
+        if($file == '.' || $file == '..') {
+            continue;
+        } else if(is_dir($sub_dir)) {
+            // if is dir, continue traverseAPIs
+            if (substr($file, 0, 1) == '.') {
+                continue;
+            }
+            // write title
+            $count = count(explode(DIRECTORY_SEPARATOR, $sub_dir));
+            if ($count == 4) {
+                $title = substr($sub_dir, 2);
+                fwrite($readme, PHP_EOL.'##### '.$title.PHP_EOL);
+            }
+            traverseAPIs($sub_dir);
+        } else {
+            // if is file, dump the file and output api list
+            if (substr($file, 0, 1) == '.' || $file == 'console' || $path == '.') {
+                continue;
+            }
+            $url = $url = URL_PREFIX.substr($path, 2).'/'.$file;
+            $fileArray = file($sub_dir);
+            foreach ($fileArray as $line) {
+                $line = trim($line);
+                $before = strrpos($line, '**`');
+                $after = strrpos($line, '`**');
+                $apiKey = substr($line, $before + 3);
+                $apiKey = substr($apiKey, 0, strlen($apiKey) - 3);
+                $anchor = transferToAnchor($apiKey);
+                if ($before && $after) {
+                    fwrite($readme, '- ['.$apiKey.']'.'('.$url.'#'.$anchor.')'.PHP_EOL);
+                }
+            }
+        }
+    }
+}
+/**
+ * @param $anchor
+ * @return mixed
+ */
+function transferToAnchor(
+    $anchor
+) {
+    $anchor = str_replace('/', '', $anchor);
+    $anchor = str_replace('?', '', $anchor);
+    $anchor = str_replace('{', '', $anchor);
+    $anchor = str_replace('}', '', $anchor);
+    $anchor = str_replace('[', '', $anchor);
+    $anchor = str_replace(']', '', $anchor);
+    $anchor = str_replace('=', '', $anchor);
+    $anchor = str_replace('&', '', $anchor);
+    $anchor = preg_replace(array('/\s/'), array('-'), $anchor);
+    $anchor = strtolower($anchor);
+    return $anchor;
+}
+?>
