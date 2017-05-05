@@ -38,11 +38,13 @@ sudo vim /etc/fstab
 
 类似这样：
 
+```
 # <file system> <mount point> <type> <options> <dump> <pass>
 # / was on /dev/xvda1 during installation
 UUID=af414ad8-9936-46cd-b074-528854656fcd / ext4 errors=remount-ro,barrier=0 0 1
 /dev/xvdb1 /data ext4 errors=remount-ro,barrier=0 0 0
 /data/docker /var/lib/docker none bind 0 0
+```
 
 5. 重新挂载
 sudo mount -a
@@ -51,7 +53,9 @@ sudo mount -a
 
 6. 检查一下
 
+```
 sudo df /var/lib/docker/
+```
 
 
 如果成功会是如下输出
