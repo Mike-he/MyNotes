@@ -11,10 +11,13 @@
 
 2. 备份 fstab
 
+```
 sudo cp /etc/fstab /etc/fstab.$(date +%Y-%m-%d)
+```
 
 3. 停止docker， 用rsync同步/var/lib/docker到新位置.
 
+```
 sudo service docker stop
 
 
@@ -25,16 +28,23 @@ sudo rsync -aXS /var/lib/docker/. /data/docker/
 
 
 sudo rm -rf /var/lib/docker/*
+```
 
 
 
 4. 修改fstab，
+
+```
 sudo vim /etc/fstab
+```
 
 
 把下面一行添加到fstab里，将新位置挂载到 /var/lib/docker
 
+
+```
 /data/docker /var/lib/docker none bind 0 0
+```
 
 类似这样：
 
@@ -47,8 +57,10 @@ UUID=af414ad8-9936-46cd-b074-528854656fcd / ext4 errors=remount-ro,barrier=0 0 1
 ```
 
 5. 重新挂载
-sudo mount -a
 
+```
+sudo mount -a
+```
 
 
 6. 检查一下
