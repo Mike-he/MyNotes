@@ -7,8 +7,6 @@ const URL_PREFIX = 'https://github.com/Mike-he/myNotes/blob/master/';
 $excludeDir = array('Test Scenarios');
 file_put_contents(README_MD, '');
 $readme = fopen(README_MD, 'a');
-//fwrite($readme, '![Sandbox3](http://devbackend.sandbox3.cn/img/login_logo.jpg)'.PHP_EOL.PHP_EOL);
-fwrite($readme, '# API quick links (Too many? Try quick search with `⌘F`):'.PHP_EOL.PHP_EOL);
 handleArgv($argv);
 /**
  * @param $argv

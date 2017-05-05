@@ -1,5 +1,3 @@
-# API quick links (Too many? Try quick search with `⌘F`):
-
 - 笔记
     - Centos服务器配置笔记
         - [Docker](https://github.com/Mike-he/myNotes#笔记centos服务器配置笔记docker)
