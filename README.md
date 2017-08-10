@@ -7,5 +7,3 @@
 
 ##### 笔记/Centos服务器配置笔记/Docker
 - [Docker从系统盘迁移到数据盘](https://github.com/Mike-he/myNotes/blob/master/笔记/Centos服务器配置笔记/Docker/docker从系统盘迁移到数据盘.md#docker从系统盘迁移到数据盘)
-
-- [x] 2131
