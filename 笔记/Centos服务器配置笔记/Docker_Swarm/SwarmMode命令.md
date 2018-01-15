@@ -44,8 +44,19 @@
             redis:3.0.6`
 
 - `service inspect`
+    - 显示一项或多项服务的详细信息
 - `service ls`
+    - 列出服务
+    - `docker service ls --format "{{.ID}}: {{.Mode}} {{.Replicas}}"`
 - `service rm`
+    - 删除一个或多个服务
 - `service scale`
+    - 扩展一个或多个复制服务
+    - `docker service scale backend=3 frontend=5`
 - `service ps`
+    - 列出一项或多项服务的任务
 - `service update`
+    - 更新服务
+    - 回滚服务 `docker service update --rollback web`
+    - `docker service update --force --update-parallelism 1 --update-delay 30s redis`
+        - 在这个例子中，该--force标志导致服务的任务被关闭并被新的替换，即使其他参数通常都不会导致这种情况发生。该--update-parallelism 1设置确保一次只更换一个任务（这是默认行为）。该 --update-delay 30s设置在任务之间引入了30秒的延迟，以便滚动重启逐渐发生。
