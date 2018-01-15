@@ -1,10 +1,10 @@
 # **`SwarmMode命令`**
 
-`使用此命令的客户端和守护程序API必须至少为1.24。`
+使用此命令的客户端和守护程序API必须至少为1.24。
 
-`使用docker version客户端上的命令来检查您的客户端和守护程序API版本。`
+使用docker version客户端上的命令来检查您的客户端和守护程序API版本。
 
-- swarm init
+- `swarm init`
     - `--advertise-addr` 广播地址，格式：<ip | interface> [：port]
         - 示例 `docker swarm init --advertise-addr 192.168.99.121`
         - `192.168.99.121` IP地址为其他子节点可以访问到的地址
@@ -23,7 +23,7 @@
     - `--snapshot-interval` Raft快照之间的日志条目数
     - `--task-history-limit` 任务历史保留限制
 
-- swarm join
+- `swarm join`
     - 加入群体作为Node或Manager
     - `--advertise-addr` 广播地址，格式：<ip | interface> [：port]
     - `--availability` 节点的可用性(active | pause | drain)
@@ -31,7 +31,7 @@
     - `--listen-addr` 监听地址（格式：<ip | interface> [：port]）
     - `--token` 进入群的令牌
     
-- service create
+- `service create`
     - 创建一个新的服务
     - `docker service create --name redis --replicas=5 redis:3.0.6`
     - `docker service create --mode global --name redis2 redis:3.0.6`
@@ -43,9 +43,9 @@
             --update-parallelism 2 \
             redis:3.0.6`
 
-- service inspect
-- service ls
-- service rm
-- service scale
-- service ps
-- service update
+- `service inspect`
+- `service ls`
+- `service rm`
+- `service scale`
+- `service ps`
+- `service update`
