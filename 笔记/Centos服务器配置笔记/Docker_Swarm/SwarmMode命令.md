@@ -24,7 +24,7 @@
     - `--task-history-limit` 任务历史保留限制
 
 - `swarm join`
-    - 加入群体作为Node或Manager
+    - 加入集群作为Node或Manager
     - `--advertise-addr` 广播地址，格式：<ip | interface> [：port]
     - `--availability` 节点的可用性(active | pause | drain)
     - `--data-path-addr` 用于数据路径通信的地址或接口（格式：<ip | interface>）
