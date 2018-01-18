@@ -3,6 +3,7 @@
         - [Docker](https://github.com/Mike-he/myNotes#笔记centos服务器配置笔记docker)
         - [Docker_Swarm](https://github.com/Mike-he/myNotes#笔记centos服务器配置笔记docker_swarm)
     - Symfony API开发笔记
+    - PHP算法笔记
 
 ---
 
